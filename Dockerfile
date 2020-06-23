@@ -8,7 +8,7 @@ ENV USER_PID=1000
 RUN pacman --noconfirm -Suy
 
 # Basics
-RUN pacman --noconfirm -S fakeroot git gcc cmake make cups supervisor
+RUN pacman --noconfirm -S fakeroot git gcc cmake make sudo go cups supervisor
 
 # Supervisor config
 ADD supervisor.conf /etc/
