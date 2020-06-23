@@ -8,10 +8,10 @@ ENV USER_PID=1000
 RUN pacman --noconfirm -Suy
 
 # Basics
-RUN pacman --noconfirm -S fakeroot git gcc cmake make sudo go cups supervisor
+RUN pacman --noconfirm -S fakeroot git gcc cmake make ghostscript cups supervisor
 
 # Supervisor config
-ADD supervisor.conf /etc/
+ADD cups.conf /etc/supervisor.d/
 
 # Can't run makepkg as root
 RUN useradd -r -u ${USER_PID} archuser && \
@@ -21,8 +21,11 @@ RUN useradd -r -u ${USER_PID} archuser && \
 USER archuser
 WORKDIR /home/appuser
 
-#Install Canon drivers
-RUN git clone https://aur.archlinux.org/cnijfilter2-bin.git && cd cnijfilter2-bin && makepkg -si && cd .. && rm -rf cnijfilter2-bin
+# Build Canon drivers
+RUN git clone https://aur.archlinux.org/cnijfilter2-bin.git && cd cnijfilter2-bin && makepkg
 
-# Canon drivers
-RUN yay --noconfirm -S cnijfilter2-bin
+# Install as root
+USER root
+RUN cd cnijfilter2-bin && pacman --noconfirm -U cnijfilter2-*.pkg.tar.xz && cd .. && rm -rf cd cnijfilter2-bin
+
+CMD [ "/usr/bin/supervisord" ]
