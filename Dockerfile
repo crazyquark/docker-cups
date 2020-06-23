@@ -21,8 +21,8 @@ RUN useradd -r -u ${USER_PID} archuser && \
 USER archuser
 WORKDIR /home/appuser
 
-# Yay AUR helper
-RUN git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si && cd .. && rm -rf yay
+#Install Canon drivers
+RUN git clone https://aur.archlinux.org/cnijfilter2-bin.git && cd cnijfilter2-bin && makepkg -si && cd .. && rm -rf cnijfilter2-bin
 
 # Canon drivers
 RUN yay --noconfirm -S cnijfilter2-bin
