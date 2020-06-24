@@ -12,7 +12,7 @@ RUN pacman --noconfirm -S fakeroot git gcc cmake make ghostscript cups superviso
 
 # Supervisor config
 RUN mkdir -p /var/log/supervisord/
-ADD cups.conf /etc/supervisor.d/
+ADD config/supervisord.conf /etc/
 
 # Can't run makepkg as root
 RUN useradd -r -u ${USER_PID} archuser && \
@@ -29,4 +29,4 @@ RUN git clone https://aur.archlinux.org/cnijfilter2-bin.git && cd cnijfilter2-bi
 USER root
 RUN cd cnijfilter2-bin && pacman --noconfirm -U cnijfilter2-*.pkg.tar.xz && cd .. && rm -rf cd cnijfilter2-bin
 
-CMD [ "/usr/bin/supervisord", "-c", "/etc/supervisor.d/cups.conf" ]
+CMD [ "/usr/bin/supervisord", "-c", "/etc/supervisord.conf" ]
