@@ -29,7 +29,14 @@ RUN git clone https://aur.archlinux.org/cnijfilter2-bin.git && cd cnijfilter2-bi
 USER root
 RUN cd cnijfilter2-bin && pacman --noconfirm -U cnijfilter2-*.pkg.tar.xz && cd .. && rm -rf cd cnijfilter2-bin
 
-# Bind to 0.0.0.0
-RUN sed -i s/localhost:631/0.0.0.0:631/g /etc/cups/cupsd.conf
+# Configure cups
+RUN sed -i 's/Listen localhost:631/Listen 0.0.0.0:631/' /etc/cups/cupsd.conf && \
+	sed -i 's/Browsing Off/Browsing On/' /etc/cups/cupsd.conf && \
+	sed -i 's/<Location \/>/<Location \/>\n  Allow All/' /etc/cups/cupsd.conf && \
+	sed -i 's/<Location \/admin>/<Location \/admin>\n  Allow All\n  Require user @SYSTEM/' /etc/cups/cupsd.conf && \
+	sed -i 's/<Location \/admin\/conf>/<Location \/admin\/conf>\n  Allow All/' /etc/cups/cupsd.conf && \
+	sed -i 's/.*enable\-dbus=.*/enable\-dbus\=no/' /etc/avahi/avahi-daemon.conf && \
+	echo "ServerAlias *" >> /etc/cups/cupsd.conf && \
+	echo "DefaultEncryption Never" >> /etc/cups/cupsd.conf
 
-CMD [ "/usr/bin/supervisord", "-c", "/etc/supervisor.d/cups.conf" ]
+CMD [ "/usr/bin/supervisord", "-c", "/etc/supervisor.d/supervisord.conf" ]
