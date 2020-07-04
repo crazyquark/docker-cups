@@ -4,3 +4,5 @@ services:
     cups:
         platform: linux/amd64
         image: crazyquark/cups
+        network_mode: 'host'
+
