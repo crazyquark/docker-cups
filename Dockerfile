@@ -3,6 +3,7 @@ FROM archlinux
 LABEL maintainer="cristian.sandu@gmail.com"
 
 ENV USER_PID=1000
+ENV LP_GID=7
 
 ENV CUPSADMIN=admin
 ENV CUPSPASSWORD=password
@@ -32,9 +33,9 @@ RUN git clone https://aur.archlinux.org/cnijfilter2-bin.git && cd cnijfilter2-bi
 USER root
 RUN cd cnijfilter2-bin && pacman --noconfirm -U cnijfilter2-*.pkg.tar.xz && cd .. && rm -rf cd cnijfilter2-bin
 
-# Create cups admin user
-RUN useradd -r -g sys $CUPSADMIN
-RUN echo $CUPSADMIN:$CUPSPASSWORD | chpasswd
+# Change 
+RUN groupmod -g ${LP_GID} lp
+RUN echo root:${CUPSPASSWORD} | chpasswd
 
 # Configure cups
 RUN sed -i 's/Listen localhost:631/Listen 0.0.0.0:631/' /etc/cups/cupsd.conf && \
