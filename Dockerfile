@@ -4,11 +4,14 @@ LABEL maintainer="cristian.sandu@gmail.com"
 
 ENV USER_PID=1000
 
+ENV CUPSADMIN=admin
+ENV CUPSPASSWORD=password
+
 # Upgrade
 RUN pacman --noconfirm -Suy
 
 # Basics
-RUN pacman --noconfirm -S fakeroot git gcc cmake make ghostscript cups avahi-daemon supervisor
+RUN pacman --noconfirm -S fakeroot git gcc cmake make ghostscript cups avahi supervisor
 
 # Supervisor config
 RUN mkdir -p /var/log/supervisord/
@@ -28,6 +31,10 @@ RUN git clone https://aur.archlinux.org/cnijfilter2-bin.git && cd cnijfilter2-bi
 # Install as root
 USER root
 RUN cd cnijfilter2-bin && pacman --noconfirm -U cnijfilter2-*.pkg.tar.xz && cd .. && rm -rf cd cnijfilter2-bin
+
+# Create cups admin user
+RUN adduser -S -G lpadmin --no-create-home $CUPSADMIN
+RUN echo $CUPSADMIN:$CUPSPASSWORD | chpasswd
 
 # Configure cups
 RUN sed -i 's/Listen localhost:631/Listen 0.0.0.0:631/' /etc/cups/cupsd.conf && \
