@@ -5,7 +5,6 @@ services:
         platform: linux/amd64
         image: crazyquark/cups
         network_mode: host
-        privileged: true
         volumes:
             - /dev/bus/usb:/dev/bus/usb
         environment:
