@@ -46,4 +46,4 @@ RUN sed -i 's/Listen localhost:631/Listen 0.0.0.0:631/' /etc/cups/cupsd.conf && 
 	echo "ServerAlias *" >> /etc/cups/cupsd.conf && \
 	echo "DefaultEncryption Never" >> /etc/cups/cupsd.conf
 
-CMD [ "/usr/bin/supervisord", "-c", "/etc/supervisor.d/supervisord.conf" ]
+CMD [ "/usr/bin/supervisord", "-c", "/etc/supervisord.conf" ]
