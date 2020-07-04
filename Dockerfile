@@ -11,7 +11,7 @@ ENV ROOTPASSWORD=password
 RUN pacman --noconfirm -Suy
 
 # Basics
-RUN pacman --noconfirm -S fakeroot git gcc cmake make ghostscript cups avahi supervisor
+RUN pacman --noconfirm -S fakeroot git gcc cmake make ghostscript cups avahi gnu-free-fonts supervisor
 
 # Supervisor config
 RUN mkdir -p /var/log/supervisord/
