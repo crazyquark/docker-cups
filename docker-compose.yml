@@ -5,8 +5,7 @@ services:
         platform: linux/amd64
         image: crazyquark/cups
         network_mode: host
-        volumes:
-            - /dev/bus/usb:/dev/bus/usb
+        privileged: true
         environment:
             - ROOTPASSWORD=password
 
