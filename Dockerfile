@@ -5,8 +5,7 @@ LABEL maintainer="cristian.sandu@gmail.com"
 ENV USER_PID=1000
 ENV LP_GID=7
 
-ENV CUPSADMIN=admin
-ENV CUPSPASSWORD=password
+ENV ROOTPASSWORD=password
 
 # Upgrade
 RUN pacman --noconfirm -Suy
@@ -35,7 +34,7 @@ RUN cd cnijfilter2-bin && pacman --noconfirm -U cnijfilter2-*.pkg.tar.xz && cd .
 
 # Change 
 RUN groupmod -g ${LP_GID} lp
-RUN echo root:${CUPSPASSWORD} | chpasswd
+RUN echo root:${ROOTPASSWORD} | chpasswd
 
 # Configure cups
 RUN sed -i 's/Listen localhost:631/Listen 0.0.0.0:631/' /etc/cups/cupsd.conf && \

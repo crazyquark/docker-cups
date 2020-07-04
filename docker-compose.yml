@@ -8,7 +8,6 @@ services:
         volumes:
             - /dev/bus/usb:/dev/bus/usb
         environment:
-            - CUPSADMIN=admin
-            - CUPSPASSWORD=password
+            - ROOTPASSWORD=password
 
 
