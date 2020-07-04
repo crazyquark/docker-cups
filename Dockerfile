@@ -26,11 +26,13 @@ USER archuser
 WORKDIR /home/archuser
 
 # Build Canon drivers
-RUN git clone https://aur.archlinux.org/cnijfilter2.git && cd cnijfilter2 && makepkg
+RUN mkdir cnijfilter2
+ADD cnijfilter2/PKGBUILD /home/archuser/cnijfilter2/PKGBUILD
+RUN cd cnijfilter2 && makepkg
 
 # Install as root
 USER root
-RUN cd cnijfilter2-bin && pacman --noconfirm -U cnijfilter2.pkg.tar.xz && cd .. && rm -rf cnijfilter2
+RUN cd cnijfilter2-bin && pacman --noconfirm -U cnijfilter2.pkg.tar.xz
 
 # Change 
 RUN groupmod -g ${LP_GID} lp
