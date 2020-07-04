@@ -33,7 +33,7 @@ USER root
 RUN cd cnijfilter2-bin && pacman --noconfirm -U cnijfilter2-*.pkg.tar.xz && cd .. && rm -rf cd cnijfilter2-bin
 
 # Create cups admin user
-RUN adduser -S -G lpadmin --no-create-home $CUPSADMIN
+RUN useradd -r -U $CUPSADMIN
 RUN echo $CUPSADMIN:$CUPSPASSWORD | chpasswd
 
 # Configure cups
