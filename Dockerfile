@@ -8,11 +8,11 @@ ENV USER_PID=1000
 RUN pacman --noconfirm -Suy
 
 # Basics
-RUN pacman --noconfirm -S fakeroot git gcc cmake make ghostscript cups supervisor
+RUN pacman --noconfirm -S fakeroot git gcc cmake make ghostscript cups avahi-daemon supervisor
 
 # Supervisor config
 RUN mkdir -p /var/log/supervisord/
-ADD cups.conf /etc/supervisor.d/
+ADD config/supervisord.conf /etc/
 
 # Can't run makepkg as root
 RUN useradd -r -u ${USER_PID} archuser && \
