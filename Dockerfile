@@ -23,7 +23,7 @@ RUN useradd -r -u ${USER_PID} archuser && \
     chown -R archuser /home/archuser
 
 USER archuser
-WORKDIR /home/appuser
+WORKDIR /home/archuser
 
 # Build Canon drivers
 RUN git clone https://aur.archlinux.org/cnijfilter2-bin.git && cd cnijfilter2-bin && makepkg
@@ -33,7 +33,7 @@ USER root
 RUN cd cnijfilter2-bin && pacman --noconfirm -U cnijfilter2-*.pkg.tar.xz && cd .. && rm -rf cd cnijfilter2-bin
 
 # Create cups admin user
-RUN useradd -r -U $CUPSADMIN
+RUN useradd -r -g sys $CUPSADMIN
 RUN echo $CUPSADMIN:$CUPSPASSWORD | chpasswd
 
 # Configure cups
