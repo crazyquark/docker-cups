@@ -11,7 +11,7 @@ ENV ROOTPASSWORD=password
 RUN pacman --noconfirm -Suy
 
 # Basics
-RUN pacman --noconfirm -S fakeroot git gcc cmake make ghostscript cups avahi supervisor
+RUN pacman --noconfirm -S fakeroot git gcc cmake make ghostscript cups avahi supervisor automake autoconf
 
 # Supervisor config
 RUN mkdir -p /var/log/supervisord/
@@ -26,11 +26,11 @@ USER archuser
 WORKDIR /home/archuser
 
 # Build Canon drivers
-RUN git clone https://aur.archlinux.org/cnijfilter2-bin.git && cd cnijfilter2-bin && makepkg
+RUN git clone https://aur.archlinux.org/cnijfilter2.git && cd cnijfilter2 && makepkg
 
 # Install as root
 USER root
-RUN cd cnijfilter2-bin && pacman --noconfirm -U cnijfilter2-*.pkg.tar.xz && cd .. && rm -rf cd cnijfilter2-bin
+RUN cd cnijfilter2-bin && pacman --noconfirm -U cnijfilter2.pkg.tar.xz && cd .. && rm -rf cnijfilter2
 
 # Change 
 RUN groupmod -g ${LP_GID} lp
